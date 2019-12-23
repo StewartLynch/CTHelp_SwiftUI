@@ -2,8 +2,6 @@
 
 [![Platform](http://img.shields.io/badge/platform-iOS-blue.svg?style=flat)](https://developer.apple.com/iphone/index.action)[![](http://img.shields.io/badge/language-Swift-brightgreen.svg?color=orange)](https://developer.apple.com/swift)![](https://img.shields.io/github/tag/stewartlynch/CTHelp2?style=flat)![](https://img.shields.io/github/last-commit/StewartLynch/CTHelp2)
 
-[toc]
-
 ### What is this?
 
 ![CTHelp_SwiftUI](CTHelp_SwiftUI.gif)
@@ -21,7 +19,8 @@ Watch this video to see installation and use as described below.
 
 The video also provides tips and ideas on how to consolidate all of your help for all of your viewControllers
 
-https://youtu.be/jbmQyQ3ggAQ
+<!--Coming Soon!!!!!-->
+
 ##### Step 1 - Install CTHelp_SwiftUI using Swift Package Manager
 
 1. From within Xcode 11 or later, choose **File > Swift Packages > Add Package Dependency**
@@ -29,12 +28,12 @@ https://youtu.be/jbmQyQ3ggAQ
 3. Choose the latest available version.
 4. Add the package to your target.
 
-##### Step 2 - Import SwiftUI
+##### Step 2 - Import CTHelp
 
 For each screen view that you wish to present a set of CTHelp cards, import CTHelp_SwiftUI
 
 ```Swift
-import CTHelp_SwiftUI
+import CTHelp
 ```
 
 ##### Step 3 - Create your instance variables
@@ -130,7 +129,7 @@ ctHelp.appendDefaults(companyName: "CreaTECH Solutions",
                       emailAddress: "books@createchsol.com",
                       data: bookData,
                       webSite: "https://www.createchsol.com",
-                      companyImageName: "CreaTECH")
+                      companyImageName: "CreaTech")
 ```
 
 
@@ -201,6 +200,14 @@ let myCTStrings = CTString(contactTitle: "Contact Developer",
          
 ```
 
+You can also just declare an instance of CTString and add in only the strings you wish to change like this:
+
+```swift
+let myCTStrings = CTString()
+myCTStrings.contactTitle = "Bug Report"
+myCTStrings.contactHelpText = "Please help us improve this application by submitting your bug reports."
+```
+
 Now you can pass this set of colors within your `createCTHelpItems` function
 
 ```swift
@@ -231,6 +238,14 @@ Now you can pass this set of colors within your `createCTHelpItems` function
 
 ```swift
 ctHelp.ctColors = myCTColors
+```
+
+You can also just declare an instance of CTColors and add in only the colors you wish to change like this:
+
+```swift
+let myCTColors = CTColors()
+myCTolors.titleColor = .red
+myCTColors.textColor = .darkGray
 ```
 
 You if you have declared and have access an instance of both CTString and CTColors that you created elsewhere in your code, you can pass both of them to your instance of ctHelp when you create it.
