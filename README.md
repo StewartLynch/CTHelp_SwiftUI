@@ -73,6 +73,8 @@ An sample function is as follows creates 5 help cards
 
 ```swift
 func createCTHelpItems() {
+  // This will clear out any cards in case this function gets called repeatedly for this view
+   ctHelp.clearItems()
   // Card 1 is a card with no text and a single image
         ctHelp.new(CTHelpItem(title:"My Books",
         helpText: "",
@@ -132,14 +134,7 @@ ctHelp.appendDefaults(companyName: "CreaTECH Solutions",
                       companyImageName: "CreaTech")
 ```
 
-
-##### Step 7 - Add a call to the function prior to toggling state
-
-Call this function just prior to toggling the **showCTHelp** state variable in your button action
-
-![calllFunction](calllFunction.png)
-
-##### Step 8 - Embed screen view in ZStack
+##### Step 7 - Embed screen view in ZStack
 
 CTHelp will be displayed as an overlay view on top of your existing screen views.  This is done when the showCTHelp value is set to true.
 
@@ -155,15 +150,21 @@ Inside the **ZStack**, after your last bit of content, add the following code.
 
 This will conditionally overlay your help cards only when the showCTHelp variable is set to true.
 
-If you run your project now, you will see that the button action will display the help when tapped. 
-
 ```swift
  // Last item in parent ZStack
 if showCTHelp {
-  ctHelp.showCTHelpView(ctHelp: ctHelp, showCTHelp: $showCTHelp)
+  ctHelp.showCTHelpView(isPresented: $showCTHelp)
 }
 
 ```
+
+##### Step 9 - Add a call to the function when the view appears
+
+Call this function when your ZStack view appears.
+
+![calllFunction](calllFunction.png)
+
+If you run your project now, you will see that the button action will display the help when tapped. 
 
 ##### Step 10 - Final Touches
 

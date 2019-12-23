@@ -21,6 +21,10 @@ public class CTHelp {
         self.ctString = ctString
         self.ctColors = ctColors
     }
+    
+    public func clearItems() {
+        helpItems.removeAll()
+    }
     /// Create a new help item and add it to the helpItems Array.
     ///
     /// - Parameter helpItem: an item of help.
