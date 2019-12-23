@@ -19,7 +19,7 @@ Watch this video to see installation and use as described below.
 
 The video also provides tips and ideas on how to consolidate all of your help for all of your viewControllers
 
-<!--Coming Soon!!!!!-->
+*COMING SOON...*
 
 ##### Step 1 - Install CTHelp_SwiftUI using Swift Package Manager
 
