@@ -143,7 +143,7 @@ Call this function just prior to toggling the **showCTHelp** state variable in y
 
 CTHelp will be displayed as an overlay view on top of your existing screen views.  This is done when the showCTHelp value is set to true.
 
-To enable this, you must embed your current set of view (in my case everything inside of the NavigationView) inside a **ZStack**
+To enable this, you must embed your current set of screens view (in my case the VStack inside of the NavigationView) inside a **ZStack**
 
 **Hint:**  To do this easily select your content and Command-Click and choose Embed in HStack (or VStack as there is no option to choose ZStack) then change it to a ZStack.
 

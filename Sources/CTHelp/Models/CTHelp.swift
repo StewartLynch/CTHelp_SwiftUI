@@ -58,15 +58,14 @@ public class CTHelp {
         
     }
     
-    public func showCTHelpView(ctHelp:CTHelp,
-                               showCTHelp:Binding<Bool>) -> some View {
+    public func showCTHelpView(isPresented :Binding<Bool>) -> some View {
         ZStack {
             Color(.label).opacity(0.2).edgesIgnoringSafeArea(.all)
             SwiftUIPagerView(
-                pages: (0..<helpItems.count).map {
+                pages: (0..<self.helpItems.count).map {
                     // Pass in CTString and CTColors too here
                     index in CTHelpCardView(index: index,
-                                            total: ctHelp.helpItems.count,
+                                            total: helpItems.count,
                                             helpItem: helpItems[index],
                                             bgViewColor: ctColors?.bgViewColor,
                                             titleColor: ctColors?.titleColor,
@@ -76,7 +75,7 @@ public class CTHelp {
                                             closeButtonBGColor: ctColors?.closeButtonBGColor,
                                             pageControlColor:ctColors?.pageControlColor,
                                             ctString: ctString,
-                                            showCTHelp: showCTHelp)
+                                            showCTHelp: isPresented)
             })
         }
     }
