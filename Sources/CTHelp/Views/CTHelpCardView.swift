@@ -32,7 +32,7 @@ struct CTHelpCardView: View, Identifiable {
     
     var body: some View {
         VStack(spacing: 0) {
-            Spacer(minLength: 10)
+            Spacer(minLength: 20)
             ZStack {
                 // This is the background card
                 RoundedRectangle(cornerRadius: 10)

@@ -1,10 +1,10 @@
-# CTHelp_SwiftUI
+# `CTHelp_SwiftUI`
 
-[![Platform](http://img.shields.io/badge/platform-iOS-blue.svg?style=flat)](https://developer.apple.com/iphone/index.action)[![](http://img.shields.io/badge/language-SwiftUI-brightgreen.svg?color=orange)](https://developer.apple.com/swift)![](https://img.shields.io/github/tag/stewartlynch/CTHelp_SwiftUI?style=flat)![](https://img.shields.io/github/last-commit/StewartLynch/CTHelp_SwiftUI)
+[![Platform](http://img.shields.io/badge/platform-iOS-blue.svg?style=flat)](https://developer.apple.com/iphone/index.action)[![](http://img.shields.io/badge/language-SwiftUI-brightgreen.svg?color=orange)](https://developer.apple.com/swiftui)![](https://img.shields.io/github/tag/stewartlynch/CTHelp_SwiftUI?style=flat)![](https://img.shields.io/github/last-commit/StewartLynch/CTHelp_SwiftUI)
 
 ### What is this?
 
-![CTHelp_SwiftUI](CTHelp_SwiftUI.gif)
+![CTHelp_SwiftUI](ReadMeImages/CTHelp_SwiftUI.gif)
 
 **CTHelp** is a customizable drop in Help solution.  Each one of your screen views can have its own set of 'help cards'.  You can also optionally include a card that links to your web site and one that will initiate an email to to whichever address you specify.
 
@@ -143,7 +143,7 @@ To enable this, you must embed your current set of screens view (in my case the 
 
 **Hint:**  To do this easily select your content and Command-Click and choose Embed in HStack (or VStack as there is no option to choose ZStack) then change it to a ZStack.
 
-<img src="Embed.gif" alt="Embed" style="zoom:80%;" />
+<img src="ReadMeImages/Embed.gif" alt="Embed" style="zoom:80%;" />
 
 ##### Step 9 - Add Conditional CTHelpView
 
@@ -172,7 +172,7 @@ The ZStack does not cover the navigation bar (or TabBar if you have one) so you 
 
 This is easy to do as as all you need to do is add `.disabled(showCTHelp)` as a modifier to your button or in my case to the HSTack containing the trailing navigationBar buttons.
 
-![disableNavItems](disableNavItems.png)
+![disableNavItems](ReadMeImages/disableNavItems.png)
 
 ### Optional Parameters
 
