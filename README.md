@@ -16,9 +16,9 @@
 
 Watch this video to see installation and use as described below.
 
-The video also provides tips and ideas on how to consolidate all of your help for all of your screens
+The video also provides tips and ideas on how to consolidate all of your help for all of your screens to prevent code redundancy.
 
-*COMING SOON...*
+https://www.youtube.com/watch?v=YDjF0dXn5Ek
 
 ##### Step 1 - Install CTHelp_SwiftUI using Swift Package Manager
 
