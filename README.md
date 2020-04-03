@@ -6,7 +6,7 @@
 
 ![CTHelp_SwiftUI](ReadMeImages/CTHelp_SwiftUI.gif)
 
-**CTHelp** is a customizable drop in Help solution.  Each one of your screen views can have its own set of 'help cards'.  You can also optionally include a card that links to your web site and one that will initiate an email to to whichever address you specify.
+**CTHelp** is a customizable drop in Help solution.  Each one of your screen views can have its own set of 'help cards'.  You can also optionally include a card that lin÷ks to your web site and one that will initiate an email to to whichever address you specify.
 
 ### Requirements
 - iOS 13.0+
