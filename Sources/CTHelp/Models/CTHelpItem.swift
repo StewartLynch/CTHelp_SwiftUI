@@ -8,7 +8,8 @@
 
 import Foundation
 
-public struct CTHelpItem {
+public struct CTHelpItem: Identifiable {
+    public let id = UUID()
     let title: String
     let helpText: String
     let imageName:String

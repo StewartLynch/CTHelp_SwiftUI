@@ -3,31 +3,42 @@
 //  CreaTECH Help
 //
 //  Created by Stewart Lynch on 06/30/19.
-//  Copyright © 2019 CreaTECH Solutiions. All rights reserved.
+//  Copyright © 2019 CreaTECH Solutions. All rights reserved.
 //
 
 import SwiftUI
 
 public class CTHelp {
-    
+    /// an array of CTHelpItems
     public var helpItems:[CTHelpItem] = []
     
-    // Custom Strings and colors
-    
+    /// Width of the card - default is 300
+    public var width: CGFloat
+    /// Height of the card - default is 285
+    public var height: CGFloat
+
+    /// Optional set of custom strings
     public var ctString:CTString?
+
+    /// Optional set of custom colors
     public var ctColors:CTColors?
     
-    public init(ctString:CTString? = nil, ctColors:CTColors? = nil){
+    public init(width: CGFloat = 300, height: CGFloat = 285, ctString:CTString? = nil, ctColors:CTColors? = nil) {
         self.ctString = ctString
         self.ctColors = ctColors
+        self.width = width
+        self.height = height
     }
-    
+
+
+    /// Clears the helpItems Array
     public func clearItems() {
         helpItems.removeAll()
     }
-    /// Create a new help item and add it to the helpItems Array.
-    ///
-    /// - Parameter helpItem: an item of help.
+
+
+    /// Append new item to the CTHelpItem Array
+    /// - Parameter ctHelpItem: a CTHelpItem
     public func new(_ ctHelpItem:CTHelpItem) {
         helpItems.append(ctHelpItem)
     }
@@ -61,26 +72,45 @@ public class CTHelp {
         }
         
     }
-    
-    public func showCTHelpView(isPresented :Binding<Bool>) -> some View {
+
+
+    /// Presents the set of help screens
+    /// - Parameters:
+    ///   - isPresented: a binding to the @State Boolean variable that is used to present the screens
+    ///   - ctHelp: the ctHelp class containing the array of CTHelpItem and other optional properties
+    /// - Returns: The screens in a horizontally scrolling view over the current view
+    public func  showCTHelpScreens(isPresented:Binding<Bool>, ctHelp:CTHelp) -> some View {
         ZStack {
-            Color(.label).opacity(0.2).edgesIgnoringSafeArea(.all)
-            SwiftUIPagerView(
-                pages: (0..<self.helpItems.count).map {
-                    // Pass in CTString and CTColors too here
-                    index in CTHelpCardView(index: index,
-                                            total: helpItems.count,
-                                            helpItem: helpItems[index],
-                                            bgViewColor: ctColors?.bgViewColor,
-                                            titleColor: ctColors?.titleColor,
-                                            helpTextColor: ctColors?.helpTextColor,
-                                            actionButtonBGColor: ctColors?.actionButtonBGColor,
-                                            actionButtonTextColor: ctColors?.actionButtonTextColor,
-                                            closeButtonBGColor: ctColors?.closeButtonBGColor,
-                                            pageControlColor:ctColors?.pageControlColor,
-                                            ctString: ctString,
-                                            showCTHelp: isPresented)
-            })
+            Color(.label).opacity(0.2)
+                .ignoresSafeArea()
+                CTHelpScreens(isPresenting: isPresented, ctHelp: ctHelp)
+                    .navigationBarHidden(true)
         }
+        .zIndex(1)
+    }
+}
+
+extension CTHelp {
+    static func previewSet() -> CTHelp {
+        let ctHelp = CTHelp()
+        // Card 1 is a card with no text and a single image
+        ctHelp.new(CTHelpItem(title: "My Books", helpText: "", imageName: "My Books Logo"))
+//        // Card 2 is a card with no image and text only
+        ctHelp.new(CTHelpItem(title:"List of books",
+                          helpText: "This screen shows a list of all of the books that you have read.\nAs you read more books you read more books you can add to this list.\nYou can also remove books from the list as well.  See the other help screens here for more information.",
+                          imageName:""))
+//        // card 3 has an image and text
+        ctHelp.new(CTHelpItem(title:"Adding a Book",
+                          helpText: "To add a book to your collection, tap on the '+' button on the navigation bar.\nEnter the book title and author and tap the 'Add' button",
+                          imageName:"AddBook"))
+//        // card 4 has an image and text
+        ctHelp.new(CTHelpItem(title:"Removing a Book",
+                          helpText: "To remove a book from your list, swipe from the right to the left and choose 'Remove Book'.",
+                          imageName:"RemoveBook"))
+//        // card 5 has an image and text
+        ctHelp.new(CTHelpItem(title: "Book Detail",
+                          helpText: "Tap on the 'More' button to view more detail about the book",
+                          imageName: "More"))
+        return ctHelp
     }
 }

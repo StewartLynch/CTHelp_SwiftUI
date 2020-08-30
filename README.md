@@ -4,108 +4,201 @@
 
 ### What is this?
 
-![CTHelp_SwiftUI](ReadMeImages/CTHelp_SwiftUI.gif)
+![CTHelp_SwiftUI](ReadMeImages/ScreenShot.png)
 
-**CTHelp** is a customizable drop in Help solution.  Each one of your screen views can have its own set of 'help cards'.  You can also optionally include a card that lin÷ks to your web site and one that will initiate an email to to whichever address you specify.
+**CTHelp** is a customizable drop in Help solution.  Each one of your screen views can have its own set of 'help cards'.  You can also optionally include a card that links to your web site and one that will initiate an email to to whichever address you specify.
 
 ### Requirements
-- iOS 13.0+
+
+- iOS 14.0+
 - SwiftUI
-- Xcode 11.0+
+- Xcode 12.0+
 ### YouTube Video
 
-Watch this video to see installation and use as described below.
+For a detailed walkthrough of implementing CTHelp into a project, please watch this video. The instructions are outlined below and can be used as a future reference.
 
-The video also provides tips and ideas on how to consolidate all of your help for all of your screens to prevent code redundancy.
-
-https://www.youtube.com/watch?v=YDjF0dXn5Ek
+**Video coming soon**
 
 ##### Step 1 - Install CTHelp_SwiftUI using Swift Package Manager
 
-1. From within Xcode 11 or later, choose **File > Swift Packages > Add Package Dependency**
-2. At the next screen enter https://github.com/StewartLynch/CTHelp_SwiftUI.git when asked to choose a Package repository
+1. From within Xcode 12 or later, choose **File > Swift Packages > Add Package Dependency**
+2. At the next screen enter https://github.com/StewartLynch/CTHelp_SwiftUI when asked to choose a Package repository
 3. Choose the latest available version.
 4. Add the package to your target.
 
-##### Step 2 - Import CTHelp
+##### Step 2 - Create the Builder File
 
-For each screen view that you wish to present a set of CTHelp cards, import CTHelp
+You can create a set of CTHelp cards for every different view.  To help you manage that content, it is highly recommended that you follow these suggestions here.
 
-```Swift
+    1. Create a Helper File and enum
+
+* Create a new helper swift file.  You can give it any name, but I call mine **CTHelpBuilder**
+* change the import to *Import UIKit*
+* Add `import CTHelp`
+* Create an enum or struct called `CTHelpBuilder`
+
+````swift
+import UIKit
 import CTHelp
-```
 
-##### Step 3 - Create your instance variables
+enum CTHelpBuilder {
+    
+}
+````
+
+2. **Inside** this enum, create another enum called Page and create a case for each of the views for which you will be creating set of help cards.  For example, you may have two views; ContentView and DetailView.  In that case, I would create an enum like this:
+
+````swift
+enum Page {
+  case contentView
+  case detailView
+}
+````
+
+3. Create a **static** function caled `getHelpItems`  that wll accept a `Page` as an argument and will return a `CTHelp` object.
+
+````swift
+static func getHelpItems(page: Page) -> CTHelp {
+        
+}
+````
+
+4. In the body of the function create a constant for the ctHelp object then create a switch block for each of the page enum.
+
+````swift
+static func getHelpItems(page: Page) -> CTHelp {
+    let ctHelp = CTHelp()
+
+    switch page {
+    case .contentView:
+        // create your CTHelpItems for this associated view
+    case .detailView:
+        // create your CTHelpItems for this associated view
+    }
+      return ctHelp
+}
+````
+
+##### Step 3 - Create the CTHelpItems for each page
+
+With the builder page created, each of the switch blocks are where you create your array of CTHelpItem cards.  A CThelpItem has 3 `String` properties; `title`, `helpText`and `imageName`
+
+* If `imageName`is left as an empty string. no image will appear on the card.  If the string is not empty, there **must** be an image in your asset catalog with that name.
+
+  * **Note:** Images must be created with dimensions that will fit within the help card.  The default dimensions of the card are 315 X 285.  See below regarding changing those dimensions.
+
+    The images will **NOT** scale and will exceed the boundaries of the card if they are too large.
+
+    The `helpText` field will scroll, but the maximum height for your image should only be used if you have no helpText otherwise the helpText may not be visible.
+
+* * images should be designed to fit within the size of the card.  The default dimensions of the card is 300 X 285 but you can optionally adjust this size for each set (see notes below)
+
+* If ` helpText`is an empty string, the assumption is that there is only an image so it should be designed accordingly.  if `helpText` is particularly long, it will scroll within the available space in the card.
+
+* You can use Swift's multi-line strings, surrounding your text with triple quotes to create line breaks.
+
+You use the CTHelp **new** function to add a CTItem to the array of cards.  Here is an example showing how the three different types of cards can be created within a case block and the image displays the final result.
+
+![CTHelp_SwiftUI](ReadMeImages/SampleScreens.png)
+
+````swift
+case .contentView:
+    // Card 1 is a card with only an image, no text
+    ctHelp.new(CTHelpItem(title:"My Books",
+                          helpText: "",
+                          imageName:"MyBooksLogo"))
+    // Card 2 is a card with no image and text only
+    ctHelp.new(CTHelpItem(title:"List of books",
+                          helpText: """
+                This screen shows a list of all of the books that you have read.
+                As you read more books you read more books you can add to this list.\nYou can also remove books from the list as well.  See the other help screens here for more information.
+                """,
+                          imageName:""))
+    // card 3 has an image and text
+    ctHelp.new(CTHelpItem(title:"Adding a Book",
+                          helpText: """
+                To add a book to your collection, tap on the '+' button on the navigation bar. To be taken to the add screen.
+                """,
+                          imageName:"AddPlus"))
+````
+
+There are more options available for cards and customization that are covered later below.  But before you do that, you should test by implementing CTHelp on your views.
+
+##### Step 4 - Create your instance variables
 
 WIthin your parent screen view's struct, before the body,
 
-1. Create an instance of CTHelp
+1. Create an instance of CTHelp that will call the static getHelpItesms function using the corresponding Page enum value as an argument
+
+````swift
+let ctHelp = CTHelpBuilder.getHelpItems(page: .contentView)
+````
+
 2. Create a @State variable that will be toggled whenever you want to show or dismiss CTHelp
 
 ```swift
-let ctHelp = CTHelp()
 @State private var showCTHelp = false
 ```
 
-##### Step 4 - Create an action that will Toggle the showHelp state
+##### Step 5 - Create a button with an action that will Toggle the showHelp state
 
-Create a button that will toggle the state variable.  This is often placed inside a NavigationBar as a **NavigationBarItem**.  In my example, I am using a system image.
+Create a button that will toggle the state variable.  
+
+This is often placed inside a **toolbar** as a **ToolbarItem**.  In my example, I am using a system image and since we also want the transition to the help screen to be smooth, embed the action body within a `withAnimation` block,
 
 ```swift
-Button(action: {
-  self.showCTHelp = true
-}) {
-  Image(systemName: "questionmark.circle.fill").font(.title)
+.toolbar {
+    ToolbarItem {
+        Button(action: {
+            withAnimation {
+                showCTHelp = true
+            }
+        }){
+            Image(systemName: "questionmark.circle.fill")
+                .font(.title)
+        }
+    }
 }
 ```
 
-##### Step 5 - Create the Help Cards
+##### Step 6 - Embed screen view in ZStack
 
-Create a function that will create your  CTHelpItems.
-Each new card can be created using the `cthelp.new` function that takes one parameter, a `CTHelpItem`
+CTHelp will be displayed as an overlay view on top of your existing screen views.  This is done when the **showCTHelp** value is set to true.
 
-The `CTHelpItem` has 3 `string` parameters; `title`, `helpText` and `imageName`.  All are required, but can also be empty strings.  If the string is empty, the parameter is ignored.
+To enable this, you must embed your current set of screens view (in my case the VStack inside of the NavigationView) inside a **ZStack**. 
 
-**Note:** The image with the name `imageName` must be available as one of your assets.
+**NOTE**: Place the ZStack **inside** any NavigationView if you have one.
 
-A sample function, `createCTHelpItems()`  below creates 5 help cards.
+**Hint:**  To do this easily select your content and Command-Click and choose Embed in HStack (or VStack as there is no option to choose ZStack) then change it to a ZStack.
+
+<img src="ReadMeImages/Embed.gif" alt="Embed" style="zoom:80%;" />
+
+##### Step 7 - Add Conditional CTHelpView
+
+As the last view of the **ZStack** (before the closing ZStack bracket), add the code to call the chHelp `showCTHelpScreens` function, passing in the binding to the `$showCTHelp` state variable and your instance of `ctHelp` as arguments
+
+This will conditionally overlay your help cards only when the `showCTHelp` variable is set to true.
 
 ```swift
-func createCTHelpItems() {
-  // This will clear out any cards in case this function gets called repeatedly for this view
-   ctHelp.clearItems()
-  // Card 1 is a card with no text and a single image
-        ctHelp.new(CTHelpItem(title:"My Books",
-        helpText: "",
-        imageName:"MyBooksLogo"))
-  // Card 2 is a card with no image and text only
-        ctHelp.new(CTHelpItem(title:"List of books",
-                   helpText: "This screen shows a list of all of the books that you have read.\nAs you read more books you read more books you can add to this list.\nYou can also remove books from the list as well.  See the other help screens here for more information.",
-                   imageName:""))
-  // card 3 has an image and text
-        ctHelp.new(CTHelpItem(title:"Adding a Book",
-                   helpText: "To add a book to your collection, tap on the '+' button on the navigation bar.\nEnter the book title and author and tap the 'Add' button",
-                   imageName:"AddBook"))
-  // card 4 has an image and text
-        ctHelp.new(CTHelpItem(title:"Removing a Book",
-                   helpText: "To remove a book from your list, swipe from the right to the left and choose 'Remove Book'.",
-                    imageName:"RemoveBook"))
-  // card 5 has an image and text
-        ctHelp.new(CTHelpItem(title: "Book Detail",
-                    helpText: "Tap on the 'More' button to view more detail about the book",
-                    imageName: "More"))
+ // Last item in parent ZStack
+if showCTHelp {
+    ctHelp.showCTHelpScreens(isPresented: $showCTHelp, ctHelp: ctHelp)
 }
 ```
 
-**Note:** Images must be created with dimensions that will fit within the help card.  The maximum width and height is 280px X 210px.
+##### Step 8 - Test
 
-The images will **NOT** scale and will exceed the boundaries of the card if they are too large.
+If you run your app now, you will have a fully functional implementation of CTHelp.
 
-The `helpText` field will scroll, but the maximum height for your image should only be used if you have no helpText otherwise the helpText may not be visible.
+Repeat steps 4-7 for each of your views that will present a set of CTHelp Cards
 
-##### Step 6 - Optional Cards appendDefaults()
+## Optional Cards
 
-There are 2 optional cards that may be included by calling the `appendDefaults` function to your instance of `CTHelp`.  This function takes 5 parameters; `companyName` (String), `emailAddress` (String), `data` (data), `website` (String) and `companyImageName` (String)
+##### Optional Cards appendDefaults()
+
+There are 2 optional cards that may be included by calling the `appendDefaults` function to your instance of `CTHelp`.  
+
+This function takes 5 parameters; `companyName` (String), `emailAddress` (String), `data` (data), `website` (String) and `companyImageName` (String)
 
 ###### Email Card
 
@@ -125,9 +218,11 @@ Here is an example displaying both cards after gathering data.
 
 ```swift
 // This gathers data from the application and encodes it as a JSON String
-let books = StorageFunctions.retrieveBooks()
-let encodedBooks = StorageFunctions.encodedBooks(books: books)
-let bookData = encodedBooks.data(using: .utf8)
+let books = BooksViewModel.retrieveBooks()
+let encoder = JSONEncoder()
+guard let bookData = try? encoder.encode(books) else {
+    fatalError("Unable to encode data")
+}
 ctHelp.appendDefaults(companyName: "CreaTECH Solutions",
                       emailAddress: "books@createchsol.com",
                       data: bookData,
@@ -135,50 +230,19 @@ ctHelp.appendDefaults(companyName: "CreaTECH Solutions",
                       companyImageName: "CreaTech")
 ```
 
-##### Step 7 - Embed screen view in ZStack
+**Note:** 
 
-CTHelp will be displayed as an overlay view on top of your existing screen views.  This is done when the showCTHelp value is set to true.
+* If you are going to include these two cards on every screen, add the appendDefaults function **after** the switch block in your  **getHelpItems** function in **CTHelpBuilder** file, but **before** the return of `cthelp`
 
-To enable this, you must embed your current set of screens view (in my case the VStack inside of the NavigationView) inside a **ZStack**
+* If you wish to have different options presented for each screen, add the function as the last item in each case block
 
-**Hint:**  To do this easily select your content and Command-Click and choose Embed in HStack (or VStack as there is no option to choose ZStack) then change it to a ZStack.
+Test again and you will see the additional cards added to your help screens.
 
-<img src="ReadMeImages/Embed.gif" alt="Embed" style="zoom:80%;" />
+### Optional Arguments
 
-##### Step 9 - Add Conditional CTHelpView
+As mentioned above there are two additional optional arguments that you can use when creating your instance of `CTHelp`.  
 
-Inside the **ZStack**, after your last bit of content, add the following code.
-
-This will conditionally overlay your help cards only when the `showCTHelp` variable is set to true.
-
-```swift
- // Last item in parent ZStack
-if showCTHelp {
-  ctHelp.showCTHelpView(isPresented: $showCTHelp)
-}
-```
-
-##### Step 9 - Add a call to the function when the view appears
-
-Call this function when your ZStack view appears so add this after the closing brace on the ZStack
-
-![calllFunction](calllFunction.png)
-
-If you run your project now, you will see that the button action will display the help when tapped. 
-
-##### Step 10 - Final Touches
-
-The ZStack does not cover the navigation bar (or TabBar if you have one) so you need to disable those buttons when your `showCTHelp` variable is **true**. 
-
-This is easy to do as as all you need to do is add `.disabled(showCTHelp)` as a modifier to your button or in my case to the HSTack containing the trailing navigationBar buttons.
-
-![disableNavItems](ReadMeImages/disableNavItems.png)
-
-### Optional Parameters
-
-As mentioned above there are two additional optional parameters that you can use when creating your instance of `CTHelp`.  
-
-##### Custom Strings
+#### Custom Strings
 
 All of the strings used in CTHelp are fully customizable and **all are optional** so you do not need to change every one of them.  To customize the strings, just create a new instance of  a `CTString` and povide a string value for one or more of the optional parameters.  For your reference, the example shown below duplicates the default strings used.
 
@@ -201,6 +265,8 @@ let myCTStrings = CTString(contactTitle: "Contact Developer",
          
 ```
 
+**Note:** The instance of CTString and the assignment to your instance of cCTHelp must come **before you call the append function**, so create it **before your switch block** in your **getHelpItems** function in **CTHelpBuilder**
+
 You can also just declare an instance of CTString and add in only the strings you wish to change like this:
 
 ```swift
@@ -215,7 +281,7 @@ Now you can pass this set of strings within your `createCTHelpItems` function
 ctHelp.ctString = myCTStrings
 ```
 
-##### Custom Colors
+#### Custom Colors
 
 CTHelp's default colors are **all optional** and  are compatible with and support dark mode in iOS 13.. This is important to note as you will want to ensure that any custom colors you use have both a light and dark asset available.
 
@@ -239,19 +305,34 @@ Now you can pass this set of colors within your `createCTHelpItems` function
 ctHelp.ctColors = myCTColors
 ```
 
+**Note:** The instance of CTColors and the assignment to your instance of CTHelp must come **before you call the append function**, so create it **before your switch block** in your **getHelpItems** function in **CTHelpBuilder**
+
 You can also just declare an instance of CTColors and add in only the colors you wish to change like this:
 
 ```swift
 let myCTColors = CTColors()
-myCTolors.titleColor = .red
-myCTColors.textColor = .darkGray
+myCTColors.titleColor = .red
+myCTColors.helpTextColor = UIColor.darkGray
 ```
 
-You if you have declared, and have access an instance of both CTString and CTColors that you created elsewhere in your code, you can pass both of them to your instance of ctHelp when you create it.
+### Dimensions
 
-```swift
-let ctHelp = CTHelp(ctString: myCTStrings, ctColors: myCTColors)
-```
+By Default, the dimensions of the help card are width: 315 and height: 285.
+
+You can change this when you create your CTHelp.
+
+For example, if you have tall images or lengthy help text, you may wish to adjust the height.  
+
+**Note:** Make sure you test your adjusted dimensions on all devices in both portrait and landscape mode as well as in split mode on an iPad or regular width class size on iOS.
+
+````swift
+ctHelp.height = 400
+ctHelp.width = 200
+````
+
+**Note:** You must make sure that your image widths are less than the width for your card and you can set one or both of these options within your  **getHelpItems** function in **CTHelpBuilder** prior to the return statement.
+
+
 
 ### Feedback invited
 
