@@ -16,22 +16,19 @@ public class CTColors {
     public var actionButtonBGColor:UIColor?
     public var actionButtonTextColor:UIColor?
     public var closeButtonBGColor:UIColor?
-    public var pageControlColor:UIColor?
     
     public init(bgViewColor: UIColor? = nil,
                 helpTextColor: UIColor? = nil,
                 titleColor: UIColor? = nil,
                 actionButtonBGColor: UIColor? = nil,
                 actionButtonTextColor: UIColor? = nil,
-                closeButtonBGColor: UIColor? = nil,
-                pageControlColor: UIColor? = nil) {
+                closeButtonBGColor: UIColor? = nil) {
         self.bgViewColor = bgViewColor
         self.helpTextColor = helpTextColor
         self.titleColor = titleColor
         self.actionButtonBGColor = actionButtonBGColor
         self.actionButtonTextColor = actionButtonTextColor
         self.closeButtonBGColor = closeButtonBGColor
-        self.pageControlColor = pageControlColor
     }
     
 

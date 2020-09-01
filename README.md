@@ -85,13 +85,11 @@ With the builder page created, each of the switch blocks are where you create yo
 
 * If `imageName`is left as an empty string. no image will appear on the card.  If the string is not empty, there **must** be an image in your asset catalog with that name.
 
-  * **Note:** Images must be created with dimensions that will fit within the help card.  The default dimensions of the card are 315 X 285.  See below regarding changing those dimensions.
+  * **Note:** Images must be created with dimensions that will fit within the help card.  The default dimensions of the card are 300 X 285.  See below regarding changing those dimensions.
 
     The images will **NOT** scale and will exceed the boundaries of the card if they are too large.
 
     The `helpText` field will scroll, but the maximum height for your image should only be used if you have no helpText otherwise the helpText may not be visible.
-
-* * images should be designed to fit within the size of the card.  The default dimensions of the card is 300 X 285 but you can optionally adjust this size for each set (see notes below)
 
 * If ` helpText`is an empty string, the assumption is that there is only an image so it should be designed accordingly.  if `helpText` is particularly long, it will scroll within the available space in the card.
 
@@ -103,23 +101,27 @@ You use the CTHelp **new** function to add a CTItem to the array of cards.  Here
 
 ````swift
 case .contentView:
-    // Card 1 is a card with only an image, no text
-    ctHelp.new(CTHelpItem(title:"My Books",
-                          helpText: "",
-                          imageName:"MyBooksLogo"))
-    // Card 2 is a card with no image and text only
-    ctHelp.new(CTHelpItem(title:"List of books",
-                          helpText: """
-                This screen shows a list of all of the books that you have read.
-                As you read more books you read more books you can add to this list.\nYou can also remove books from the list as well.  See the other help screens here for more information.
-                """,
-                          imageName:""))
-    // card 3 has an image and text
-    ctHelp.new(CTHelpItem(title:"Adding a Book",
-                          helpText: """
-                To add a book to your collection, tap on the '+' button on the navigation bar. To be taken to the add screen.
-                """,
-                          imageName:"AddPlus"))
+        // Card 1 is a card with only an image, no text
+        ctHelp.new(CTHelpItem(title:"My Books",
+                              helpText: "",
+                              imageName:"MyBooksLogo"))
+
+        // Card 2 is a card with no image and text only
+        ctHelp.new(CTHelpItem(title:"List of books",
+                              helpText: """
+                    This screen shows a list of all of the books that you have read.
+                    As you read more books you read more books you can add to this list.
+                    You can also remove books from the list as well.  See the other help screens here for more information.
+                    """,
+                              imageName:""))
+
+        // card 3 has an image and text
+        ctHelp.new(CTHelpItem(title:"Adding a Book",
+                              helpText: """
+                    To add a book to your collection, tap on the '+' button on the navigation bar. To be taken to the add screen.
+                    """,
+                              imageName:"AddPlus"))
+
 ````
 
 There are more options available for cards and customization that are covered later below.  But before you do that, you should test by implementing CTHelp on your views.
@@ -165,7 +167,7 @@ This is often placed inside a **toolbar** as a **ToolbarItem**.  In my example, 
 
 CTHelp will be displayed as an overlay view on top of your existing screen views.  This is done when the **showCTHelp** value is set to true.
 
-To enable this, you must embed your current set of screens view (in my case the VStack inside of the NavigationView) inside a **ZStack**. 
+To enable this, you must embed your current set of screens view (in my case the List inside of the NavigationView) inside a **ZStack**. 
 
 **NOTE**: Place the ZStack **inside** any NavigationView if you have one.
 
@@ -288,14 +290,12 @@ CTHelp's default colors are **all optional** and  are compatible with and suppor
 To customize the colors, just create a new instance of  a `CTColors` and complete one or more of the optional parameters.  For your reference, the example shown below duplicates the default strings used.
 
 ```swift
-let myCTColors = CTColors(mailtintColor: .default,
-                    bgViewColor: UIColor.systemBackground,
+let myCTColors = CTColors(bgViewColor: UIColor.systemBackground,
                     helpTextColor: UIColor.label,
                     titleColor: UIColor.label,
                     actionButtonBGColor: UIColor.systemBlue,
                     actionButtonTextColor: UIColor.white,
-                    closeButtonBGColor: UIColor.systemGray,
-                    pageControlColor: UIColor.secondaryLabel
+                    closeButtonBGColor: UIColor.systemGray
  )
 ```
 
@@ -317,7 +317,7 @@ myCTColors.helpTextColor = UIColor.darkGray
 
 ### Dimensions
 
-By Default, the dimensions of the help card are width: 315 and height: 285.
+By Default, the dimensions of the help card are width: 300 and height: 285.
 
 You can change this when you create your CTHelp.
 

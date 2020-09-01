@@ -160,10 +160,10 @@ struct CTHelpCardView_Previews: PreviewProvider {
                            closeButtonBGColor: nil,
                            ctString: nil,
                            showCTHelp: .constant(true),
-                           width: 315,
+                           width: 300,
                            height: 285)
             
-            CTHelpCardView(helpItem: helpItem, bgViewColor: nil, titleColor: nil, helpTextColor: nil, actionButtonBGColor: nil, actionButtonTextColor: nil, closeButtonBGColor: nil, ctString: nil, showCTHelp: .constant(true), width: 315, height: 285)
+            CTHelpCardView(helpItem: helpItem, bgViewColor: nil, titleColor: nil, helpTextColor: nil, actionButtonBGColor: nil, actionButtonTextColor: nil, closeButtonBGColor: nil, ctString: nil, showCTHelp: .constant(true), width: 300, height: 285)
                 .preferredColorScheme(.dark)
                 .previewLayout(.sizeThatFits)
         }
