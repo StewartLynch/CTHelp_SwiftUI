@@ -17,7 +17,7 @@
 
 For a detailed walkthrough of implementing CTHelp into a project, please watch this video. The instructions are outlined below and can be used as a future reference.
 
-**Video coming soon**
+[Full YouTube Tutorial](https://youtu.be/41mhwUkFqzY)
 
 ##### Step 1 - Install CTHelp_SwiftUI using Swift Package Manager
 
